@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#050816">
+<title>JARVIS AI Assistant</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#040714;--bg2:#081127;--card:rgba(13,23,52,.78);--card2:rgba(20,31,67,.88);--line:rgba(93,151,255,.20);--cyan:#00e5ff;--blue:#397bff;--purple:#9b4dff;--pink:#ff3cac;--green:#00e676;--red:#ff4568;--text:#f7f9ff;--muted:#8995b7}
+html{scroll-behavior:smooth}
+body{min-height:100vh;color:var(--text);background:radial-gradient(circle at 50% 8%,rgba(47,105,255,.25),transparent 30%),radial-gradient(circle at 0% 80%,rgba(155,77,255,.16),transparent 28%),linear-gradient(145deg,#030611,#070d21 50%,#030612);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+button,input{font-family:inherit}button{border:0;cursor:pointer}
+.app{width:100%;max-width:900px;margin:auto;min-height:100vh;padding:18px 16px 115px}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+.logo{display:flex;align-items:center;gap:11px}.logoIcon{width:45px;height:45px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,#00e5ff,#5365ff,#a33cff);box-shadow:0 0 25px rgba(0,229,255,.28);font-size:22px}.logoTitle{font-size:18px;font-weight:800;letter-spacing:2px}.logoSub{color:var(--muted);font-size:10px;margin-top:3px;letter-spacing:1px}
+.online{display:flex;align-items:center;gap:7px;font-size:11px;color:#8affb8}.onlineDot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+.hero{text-align:center;padding-top:5px}.orbWrap{width:285px;height:285px;margin:10px auto 15px;position:relative;display:grid;place-items:center}
+.orbOuter1,.orbOuter2,.orbOuter3{position:absolute;border-radius:50%;border:1px solid rgba(0,229,255,.35)}
+.orbOuter1{width:245px;height:245px;border-left-color:transparent;border-right-color:#9d52ff;animation:spin 9s linear infinite}
+.orbOuter2{width:270px;height:270px;border-top-color:#00e5ff;border-bottom-color:transparent;animation:spinReverse 12s linear infinite}
+.orbOuter3{width:292px;height:292px;border-left-color:rgba(255,255,255,.18);border-right-color:transparent;animation:spin 17s linear infinite}
+.orb{width:205px;height:205px;position:relative;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at center,rgba(255,255,255,.95) 0%,rgba(0,229,255,.90) 2%,rgba(0,229,255,.25) 13%,rgba(76,75,255,.42) 32%,rgba(76,75,255,.15) 53%,transparent 70%);box-shadow:0 0 35px rgba(0,229,255,.42),0 0 80px rgba(73,86,255,.30),inset 0 0 40px rgba(0,229,255,.15);transition:.3s}
+.orb::before{content:"";position:absolute;width:135px;height:135px;border-radius:50%;border:2px solid rgba(255,255,255,.28);box-shadow:0 0 25px rgba(0,229,255,.3)}
+.orbCore{width:27px;height:27px;border-radius:50%;background:white;box-shadow:0 0 12px white,0 0 30px #00e5ff,0 0 55px #00e5ff}
+.orb.listening{animation:listenPulse 1s infinite}.orb.thinking{animation:thinkPulse .55s infinite}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes spinReverse{to{transform:rotate(-360deg)}}@keyframes listenPulse{50%{transform:scale(1.08);box-shadow:0 0 55px rgba(0,229,255,.75),0 0 110px rgba(76,125,255,.45)}}@keyframes thinkPulse{50%{transform:scale(1.05)}}
+.hero h1{font-size:31px;letter-spacing:.5px}.hero p{color:var(--muted);font-size:13px;margin-top:7px}
+.commandCard{margin-top:10px;padding:15px;border-radius:24px;background:linear-gradient(145deg,rgba(17,28,64,.86),rgba(8,15,35,.88));border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.20);backdrop-filter:blur(20px)}
+.commandHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.commandHeader span:first-child{color:var(--muted);font-size:11px;letter-spacing:1px}.commandStatus{color:var(--cyan);font-size:11px}
+.commandText{min-height:67px;display:flex;align-items:center;padding:13px 15px;border-radius:16px;background:rgba(0,0,0,.20);color:#e4e9ff;font-size:14px;line-height:1.5}
+.actionRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.actionBtn{min-height:55px;border-radius:17px;color:white;font-size:14px;font-weight:bold;display:flex;justify-content:center;align-items:center;gap:8px;transition:.15s;box-shadow:0 12px 30px rgba(0,0,0,.15)}.actionBtn:active{transform:scale(.97)}
+.speakBtn{background:linear-gradient(135deg,#00a9ff,#00d6b5)}.stopBtn{background:linear-gradient(135deg,#ff4268,#a23dff)}.settingsBtn{background:linear-gradient(135deg,#3277ff,#7744ff)}
+.section{margin-top:18px}.sectionTitle{margin:0 3px 9px;color:var(--muted);font-size:11px;letter-spacing:1px}.quickGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.quickBtn{min-height:72px;padding:8px 4px;border-radius:17px;color:#e8edff;background:rgba(13,23,52,.75);border:1px solid var(--line);font-size:11px;transition:.15s}.quickBtn:active{transform:scale(.96)}.quickIcon{display:block;font-size:22px;margin-bottom:6px}
+.timerBox{display:none;margin-top:15px;padding:17px;text-align:center;border-radius:20px;background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.18)}.timerBox.show{display:block}.timerLabel{color:var(--muted);font-size:11px;letter-spacing:1px}.timer{margin-top:5px;font-size:35px;font-weight:800;color:#fff;text-shadow:0 0 20px rgba(0,229,255,.5)}.cancelTimer{margin-top:10px;padding:8px 14px;border-radius:10px;background:rgba(255,69,104,.12);color:#ff8ca3;font-size:11px}
+.chatCard{margin-top:18px;padding:14px;border-radius:22px;background:rgba(13,23,52,.75);border:1px solid var(--line)}.chatHeader{display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--line)}.chatHeader strong{font-size:13px}.clearBtn{background:transparent;color:#ff8ca3;font-size:11px}.messages{max-height:370px;overflow-y:auto;padding:13px 2px 3px}.message{display:flex;margin-bottom:10px}.message.user{justify-content:flex-end}.bubble{max-width:88%;padding:10px 12px;border-radius:15px;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-word}.message.ai .bubble{background:rgba(66,91,180,.13);border:1px solid rgba(76,125,255,.14)}.message.user .bubble{background:linear-gradient(135deg,#315eea,#7445e9)}
+.settingsCard{display:none;margin-top:18px;padding:16px;border-radius:22px;background:rgba(13,23,52,.80);border:1px solid var(--line)}.settingsCard.show{display:block}.settingsCard h3{font-size:17px;margin-bottom:7px}.settingsCard p{color:var(--muted);font-size:11px;line-height:1.5;margin-bottom:12px}.apiInput{width:100%;padding:13px;border-radius:13px;outline:none;border:1px solid var(--line);background:#060b1d;color:white;font-size:13px}.apiInput:focus{border-color:rgba(0,229,255,.55)}.saveApi,.testApi{width:100%;margin-top:9px;padding:13px;border-radius:13px}.saveApi{color:white;font-weight:bold;background:linear-gradient(135deg,#00a9ff,#7650ff)}.testApi{color:#dce4ff;background:rgba(255,255,255,.06);border:1px solid var(--line)}.apiStatus{margin-top:10px;padding:10px;border-radius:12px;font-size:11px;display:none}.apiStatus.show{display:block}.apiStatus.success{color:#8affb8;background:rgba(0,230,118,.08)}.apiStatus.error{color:#ff8fa5;background:rgba(255,69,104,.08)}
+.bottomNav{position:fixed;z-index:100;left:50%;bottom:12px;transform:translateX(-50%);width:min(92%,560px);padding:7px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;border-radius:21px;background:rgba(5,9,24,.88);border:1px solid rgba(111,144,255,.18);backdrop-filter:blur(20px);box-shadow:0 15px 50px rgba(0,0,0,.45)}.navBtn{padding:10px 4px;border-radius:14px;color:var(--muted);background:transparent;font-size:11px}.navBtn.active{color:white;background:linear-gradient(135deg,rgba(0,229,255,.14),rgba(155,77,255,.20))}
+.toast{position:fixed;z-index:1000;top:16px;left:50%;width:min(90%,430px);padding:12px 15px;transform:translate(-50%,-100px);border-radius:15px;background:#10172e;border:1px solid var(--line);color:white;text-align:center;font-size:12px;transition:.3s;box-shadow:0 15px 40px rgba(0,0,0,.4)}.toast.show{transform:translate(-50%,0)}
+@media(max-width:430px){.app{padding-left:12px;padding-right:12px}.hero h1{font-size:29px}.orbWrap{width:270px;height:270px}.orbOuter1{width:230px;height:230px}.orbOuter2{width:250px;height:250px}.orbOuter3{width:270px;height:270px}.orb{width:195px;height:195px}.quickGrid{gap:6px}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="app">
+<header class="header">
+<div class="logo"><div class="logoIcon">✦</div><div><div class="logoTitle">JARVIS</div><div class="logoSub">AI PERSONAL ASSISTANT</div></div></div>
+<div class="online"><span class="onlineDot"></span><span id="onlineText">ONLINE</span></div>
+</header>
+<section class="hero">
+<div class="orbWrap"><div class="orbOuter1"></div><div class="orbOuter2"></div><div class="orbOuter3"></div><div class="orb" id="orb"><div class="orbCore"></div></div></div>
+<h1>Hello, I'm JARVIS</h1><p id="heroSub">Your intelligent voice assistant</p>
+</section>
+<section class="commandCard">
+<div class="commandHeader"><span>LAST COMMAND</span><span class="commandStatus" id="commandStatus">Ready</span></div>
+<div class="commandText" id="commandText">Tap Speak and tell me what you need...</div>
+<div class="actionRow">
+<button class="actionBtn speakBtn" id="speakButton" onclick="startListening()">🎙️ Speak</button>
+<button class="actionBtn settingsBtn" onclick="toggleSettings()">⚙️ Settings</button>
+</div>
+</section>
+<section class="section">
+<div class="sectionTitle">QUICK COMMANDS</div>
+<div class="quickGrid">
+<button class="quickBtn" onclick="runCommand('YouTube kholo')"><span class="quickIcon">▶️</span>YouTube</button>
+<button class="quickBtn" onclick="runCommand('Google par Android search karo')"><span class="quickIcon">🔎</span>Search</button>
+<button class="quickBtn" onclick="runCommand('2 minute ka timer lagao')"><span class="quickIcon">⏱️</span>Timer</button>
+<button class="quickBtn" onclick="toggleSettings()"><span class="quickIcon">⚙️</span>Settings</button>
+</div>
+</section>
+<section class="timerBox" id="timerBox"><div class="timerLabel">JARVIS TIMER</div><div class="timer" id="timer">00:00</div><button class="cancelTimer" onclick="cancelTimer()">Cancel Timer</button></section>
+<section class="chatCard">
+<div class="chatHeader"><strong>Conversation</strong><button class="clearBtn" onclick="clearChat()">Clear</button></div>
+<div class="messages" id="messages"></div>
+</section>
+<section class="settingsCard" id="settingsCard">
+<h3>Gemini AI Settings</h3>
+<p>Enter your Google AI Studio Gemini API key. The key is saved only in this browser's localStorage. Do not publish a personal API key in a public website.</p>
+<input class="apiInput" id="apiKey" type="password" autocomplete="off" placeholder="Paste your Gemini API key here">
+<button class="saveApi" onclick="saveApiKey()">💾 Save Gemini API Key</button>
+<button class="testApi" onclick="testGemini()">🧪 Test Gemini API</button>
+<div class="apiStatus" id="apiStatus"></div>
+<p style="margin-top:12px">Model: <strong style="color:#dfe7ff">Gemini 2.5 Flash</strong></p>
+<p>Voice recognition does not require Gemini. Gemini is used for AI answers and intelligent conversations.</p>
+</section>
+</div>
+<nav class="bottomNav">
+<button class="navBtn active" onclick="goHome()">🏠<br>Home</button>
+<button class="navBtn" onclick="goChat()">💬<br>Chat</button>
+<button class="navBtn" onclick="toggleSettings()">⚙️<br>Settings</button>
+</nav>
+
+<script>
+"use strict";
+const GEMINI_MODEL="gemini-2.5-flash";
+const GEMINI_URL="https://generativelanguage.googleapis.com/v1beta/models/"+GEMINI_MODEL+":generateContent";
+const orb=document.getElementById("orb"),commandText=document.getElementById("commandText"),commandStatus=document.getElementById("commandStatus"),onlineText=document.getElementById("onlineText"),heroSub=document.getElementById("heroSub"),speakButton=document.getElementById("speakButton"),messages=document.getElementById("messages"),settingsCard=document.getElementById("settingsCard"),apiKeyInput=document.getElementById("apiKey"),apiStatus=document.getElementById("apiStatus"),toast=document.getElementById("toast");
+
+let apiKey=localStorage.getItem("jarvis_gemini_api_key")||"";
+if(apiKey)apiKeyInput.value=apiKey;
+let conversation=[];
+try{conversation=JSON.parse(localStorage.getItem("jarvis_conversation")||"[]")}catch(e){conversation=[]}
+renderChat();
+
+const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+let recognition=null,listening=false;
+
+if(SpeechRecognition){
+recognition=new SpeechRecognition();
+recognition.continuous=false;
+recognition.interimResults=true;
+recognition.maxAlternatives=1;
+recognition.lang="en-IN";
+
+recognition.onstart=function(){
+listening=true;orb.classList.add("listening");commandStatus.textContent="Listening...";onlineText.textContent="LISTENING";heroSub.textContent="I'm listening...";speakButton.innerHTML="⏹️ Stop Listening";speakButton.classList.remove("speakBtn");speakButton.classList.add("stopBtn");
+};
+recognition.onresult=function(event){
+let text="";
+for(let i=event.resultIndex;i<event.results.length;i++)text+=event.results[i][0].transcript;
+text=text.trim();
+if(text)commandText.textContent=text;
+const lastResult=event.results[event.results.length-1];
+if(lastResult&&lastResult.isFinal)processCommand(text);
+};
+recognition.onerror=function(event){
+console.error("Speech recognition error:",event);stopListening();
+let message="Voice error: "+event.error;
+if(event.error==="not-allowed")message="Microphone permission denied. Chrome Site Settings → Microphone → Allow karo.";
+if(event.error==="service-not-allowed")message="Voice service blocked. HTTPS Chrome page par app open karke try karo.";
+if(event.error==="network")message="Voice service ke liye internet connection required hai.";
+showToast(message);
+};
+recognition.onend=function(){stopListening()};
+}else{speakButton.disabled=true;speakButton.innerHTML="🎙️ Voice Unsupported"}
+
+async function startListening(){
+if(!recognition){showToast("Chrome browser use karo. Is browser mein voice recognition supported nahi hai.");return}
+if(listening){try{recognition.stop()}catch(e){}stopListening();return}
+if(!window.isSecureContext&&location.hostname!=="localhost"){showToast("Voice ke liye HTTPS website required hai. App ko https:// URL se open karo.");return}
+try{
+if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+stream.getTracks().forEach(track=>track.stop());
+}
+recognition.lang="en-IN";recognition.continuous=false;recognition.interimResults=true;recognition.start();
+}catch(error){
+console.error("Microphone permission error:",error);
+if(error.name==="NotAllowedError"||error.name==="PermissionDeniedError")showToast("Microphone permission blocked. Chrome → Site settings → Microphone → Allow karo.");
+else if(error.name==="NotFoundError")showToast("Phone microphone nahi mila.");
+else if(error.name==="NotReadableError")showToast("Microphone kisi doosre app mein use ho raha hai.");
+else showToast("Microphone error: "+(error.message||error.name||"Unknown error"));
+}
+}
+function stopListening(){
+listening=false;orb.classList.remove("listening");commandStatus.textContent="Ready";onlineText.textContent="ONLINE";heroSub.textContent="Your intelligent voice assistant";speakButton.innerHTML="🎙️ Speak";speakButton.classList.remove("stopBtn");speakButton.classList.add("speakBtn");
+}
+async function processCommand(text){
+text=String(text||"").trim();if(!text)return;
+addMessage("user",text);commandText.textContent=text;commandStatus.textContent="Processing...";orb.classList.add("thinking");
+const localHandled=await handleLocalCommand(text);
+if(localHandled){orb.classList.remove("thinking");commandStatus.textContent="Completed";return}
+await askGemini(text);
+}
+function runCommand(text){processCommand(text)}
+
+async function handleLocalCommand(originalText){
+const text=originalText.toLowerCase().trim();
+
+if(text==="youtube"||text==="open youtube"||text.includes("youtube kholo")||text.includes("youtube khol")||text.includes("youtube open")){
+navigateTo("https://www.youtube.com/");jarvisReply("Sure. YouTube open kar raha hoon.");return true;
+}
+if(text.includes("youtube")&&(text.includes("search")||text.includes("song")||text.includes("video")||text.includes("play")||text.includes("chalao")||text.includes("chalado"))){
+let query=extractYouTubeQuery(originalText);if(!query)query="popular songs";
+navigateTo("https://www.youtube.com/results?search_query="+encodeURIComponent(query));jarvisReply("YouTube par "+query+" search kar raha hoon.");return true;
+}
+if(text.includes("google")&&(text.includes("search")||text.includes("find")||text.includes("look")||text.includes("par")||text.includes("pe"))){
+let query=extractGoogleQuery(originalText);if(!query)query=originalText.replace(/google/ig,"").trim();if(!query)query="Google";
+navigateTo("https://www.google.com/search?q="+encodeURIComponent(query));jarvisReply("Google par "+query+" search kar raha hoon.");return true;
+}
+if(text.startsWith("search ")||text.startsWith("find ")){
+let query=originalText.replace(/^search/i,"").replace(/^find/i,"").trim();
+if(query){navigateTo("https://www.google.com/search?q="+encodeURIComponent(query));jarvisReply("Searching for "+query);return true}
+}
+if(text.includes("facebook kholo")||text.includes("open facebook")){navigateTo("https://www.facebook.com/");jarvisReply("Facebook open kar raha hoon.");return true}
+if(text.includes("instagram kholo")||text.includes("open instagram")){navigateTo("https://www.instagram.com/");jarvisReply("Instagram open kar raha hoon.");return true}
+if(text.includes("whatsapp kholo")||text.includes("open whatsapp")){navigateTo("https://web.whatsapp.com/");jarvisReply("WhatsApp Web open kar raha hoon.");return true}
+if(text.includes("maps kholo")||text.includes("google maps kholo")||text.includes("open maps")){navigateTo("https://maps.google.com/");jarvisReply("Google Maps open kar raha hoon.");return true}
+if(text.includes("gmail kholo")||text.includes("open gmail")){navigateTo("https://mail.google.com/");jarvisReply("Gmail open kar raha hoon.");return true}
+if(text.includes("timer")||text.includes("minute")||text.includes("minutes")||text.includes("min")){
+const minutes=extractMinutes(originalText);
+if(minutes>0){startTimer(minutes);jarvisReply("Timer "+minutes+" minute ke liye set kar diya hai.");return true}
+}
+if(text.includes("jarvis settings")||text.includes("open settings")||text.includes("settings kholo")){toggleSettings();jarvisReply("JARVIS settings open kar di.");return true}
+return false;
+}
+function extractYouTubeQuery(text){
+return text.replace(/jarvis/ig,"").replace(/youtube/ig,"").replace(/please/ig,"").replace(/search/ig,"").replace(/play/ig,"").replace(/song/ig,"").replace(/video/ig,"").replace(/par/ig,"").replace(/pe/ig,"").replace(/karo please/ig,"").replace(/karo/ig,"").replace(/chalao/ig,"").replace(/chala do/ig,"").trim();
+}
+function extractGoogleQuery(text){
+return text.replace(/jarvis/ig,"").replace(/google/ig,"").replace(/search/ig,"").replace(/find/ig,"").replace(/look for/ig,"").replace(/search karo/ig,"").replace(/par/ig,"").replace(/pe/ig,"").replace(/karo/ig,"").replace(/please/ig,"").trim();
+}
+function extractMinutes(text){
+const minuteMatch=text.match(/(\d+(?:\.\d+)?)\s*(minute|minutes|min|mins)/i);
+if(minuteMatch)return Math.max(1,Math.round(Number(minuteMatch[1])));
+const secondMatch=text.match(/(\d+)\s*(second|seconds|sec|secs)/i);
+if(secondMatch)return Math.max(1,Math.ceil(Number(secondMatch[1])/60));
+return 0;
+}
+function navigateTo(url){try{window.location.assign(url)}catch(error){console.error(error);location.href=url}}
+
+async function askGemini(userText){
+if(!apiKey){
+orb.classList.remove("thinking");commandStatus.textContent="API Key Required";
+addMessage("ai","Main voice command samajh gaya, lekin AI answer ke liye Gemini API key Settings mein add karo.");
+speak("Gemini API key add karo.");toggleSettings();return;
+}
+const systemInstruction=`You are JARVIS, a friendly personal AI assistant.
+You are running inside a mobile web application.
+The user can speak Hindi, Hinglish and English.
+Understand natural Hindi/Hinglish.
+Give concise but useful answers.
+Do not falsely claim that you changed phone settings, opened native Android apps, sent SMS, made calls, or controlled the device.
+This browser assistant can perform web actions such as opening websites, Google searches, YouTube searches, timers and supported browser features.
+If a requested action cannot be performed by a browser, clearly say so and provide the closest useful alternative.
+You are JARVIS. Be friendly, natural and helpful.`;
+const recent=conversation.slice(-12);
+const contents=[{role:"user",parts:[{text:systemInstruction}]}];
+for(const item of recent)contents.push({role:item.role==="user"?"user":"model",parts:[{text:item.text}]});
+contents.push({role:"user",parts:[{text:userText}]});
+try{
+const response=await fetch(GEMINI_URL,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":apiKey},body:JSON.stringify({contents,generationConfig:{temperature:.7,maxOutputTokens:700}})});
+const data=await response.json();
+if(!response.ok)throw new Error(data?.error?.message||"Gemini API request failed.");
+const reply=extractGeminiResponse(data);if(!reply)throw new Error("Gemini returned an empty response.");
+addMessage("ai",reply);speak(reply);commandStatus.textContent="Ready";
+}catch(error){
+console.error("Gemini error:",error);let errorText=error.message||"Unknown Gemini error";
+addMessage("ai","Gemini se response nahi aa raha: "+errorText);showToast(errorText);commandStatus.textContent="Gemini Error";
+}finally{orb.classList.remove("thinking")}
+}
+function extractGeminiResponse(data){
+try{return(data.candidates?.[0]?.content?.parts||[]).map(part=>part.text||"").join("").trim()}catch(error){return""}
+}
+function jarvisReply(text){addMessage("ai",text);speak(text)}
+function speak(text){
+if(!("speechSynthesis"in window))return;
+try{
+window.speechSynthesis.cancel();
+const cleanText=String(text).replace(/[*_#`]/g,"").replace(/\[(.*?)\]\(.*?\)/g,"$1").trim();if(!cleanText)return;
+const utterance=new SpeechSynthesisUtterance(cleanText);utterance.rate=.95;utterance.pitch=.95;utterance.volume=1;
+const voices=window.speechSynthesis.getVoices();const preferred=voices.find(voice=>/en-IN|hi-IN/i.test(voice.lang));if(preferred)utterance.voice=preferred;
+window.speechSynthesis.speak(utterance);
+}catch(error){console.error("TTS error:",error)}
+}
+function addMessage(role,text){
+conversation.push({role,text,time:Date.now()});conversation=conversation.slice(-40);saveConversation();renderChat();
+}
+function renderChat(){
+messages.innerHTML="";
+conversation.forEach(item=>{
+const row=document.createElement("div");row.className="message "+(item.role==="user"?"user":"ai");
+const bubble=document.createElement("div");bubble.className="bubble";bubble.textContent=item.text;row.appendChild(bubble);messages.appendChild(row);
+});
+messages.scrollTop=messages.scrollHeight;
+}
+function saveConversation(){try{localStorage.setItem("jarvis_conversation",JSON.stringify(conversation))}catch(error){console.error(error)}}
+function clearChat(){conversation=[];localStorage.removeItem("jarvis_conversation");renderChat();addMessage("ai","Conversation clear kar di. Batao, main kya karun?")}
+
+let timerInterval=null;
+function startTimer(minutes){
+cancelTimer(false);let seconds=Math.round(minutes*60);
+const timerBox=document.getElementById("timerBox"),timer=document.getElementById("timer");timerBox.classList.add("show");
+function updateTimer(){
+const mins=Math.floor(seconds/60),secs=seconds%60;timer.textContent=String(mins).padStart(2,"0")+":"+String(secs).padStart(2,"0");
+if(seconds<=0){clearInterval(timerInterval);timerInterval=null;showToast("⏰ Timer finished!");jarvisReply("Your timer is finished.");return}seconds--;
+}
+updateTimer();timerInterval=setInterval(updateTimer,1000);
+}
+function cancelTimer(hide=true){if(timerInterval){clearInterval(timerInterval);timerInterval=null}if(hide)document.getElementById("timerBox").classList.remove("show")}
+
+function toggleSettings(){
+settingsCard.classList.toggle("show");
+if(settingsCard.classList.contains("show"))setTimeout(()=>settingsCard.scrollIntoView({behavior:"smooth",block:"center"}),50);
+}
+function saveApiKey(){
+const key=apiKeyInput.value.trim();
+if(!key){showApiStatus("Please enter a Gemini API key.",false);return}
+localStorage.setItem("jarvis_gemini_api_key",key);apiKey=key;showApiStatus("Gemini API key saved successfully.",true);showToast("Gemini API key saved.");
+}
+async function testGemini(){
+const key=apiKeyInput.value.trim()||apiKey;
+if(!key){showApiStatus("First enter your Gemini API key.",false);return}
+showApiStatus("Testing Gemini...",true);
+try{
+const response=await fetch(GEMINI_URL,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify({contents:[{parts:[{text:"Reply with exactly: JARVIS ONLINE"}]}],generationConfig:{maxOutputTokens:20}})});
+const data=await response.json();if(!response.ok)throw new Error(data?.error?.message||"API test failed.");
+const result=extractGeminiResponse(data);if(result){showApiStatus("✅ Gemini API working successfully.",true);showToast("Gemini API is working.")}else throw new Error("Empty Gemini response.");
+}catch(error){console.error(error);showApiStatus("❌ "+(error.message||"Gemini API test failed."),false)}
+}
+function showApiStatus(text,success){apiStatus.textContent=text;apiStatus.className="apiStatus show "+(success?"success":"error")}
+let toastTimer=null;
+function showToast(text){toast.textContent=text;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),3500)}
+function goHome(){window.scrollTo({top:0,behavior:"smooth"})}
+function goChat(){document.querySelector(".chatCard").scrollIntoView({behavior:"smooth",block:"center"})}
+apiKeyInput.addEventListener("keydown",function(event){if(event.key==="Enter")saveApiKey()});
+function checkVoiceSupport(){if(!SpeechRecognition){showToast("Voice recognition Chrome mein try karo.");return false}return true}
+if(conversation.length===0)addMessage("ai","Hello! I'm JARVIS. Speak button dabao aur command bolo.");
+if("speechSynthesis"in window)window.speechSynthesis.onvoiceschanged=function(){window.speechSynthesis.getVoices()};
+window.addEventListener("load",function(){checkVoiceSupport()});
+</script>
+</body>
+</html>
