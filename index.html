@@ -2,312 +2,2673 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<meta name="theme-color" content="#050816">
-<title>JARVIS AI Assistant</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080b18">
+<title>JARVIS AI</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#040714;--bg2:#081127;--card:rgba(13,23,52,.78);--card2:rgba(20,31,67,.88);--line:rgba(93,151,255,.20);--cyan:#00e5ff;--blue:#397bff;--purple:#9b4dff;--pink:#ff3cac;--green:#00e676;--red:#ff4568;--text:#f7f9ff;--muted:#8995b7}
-html{scroll-behavior:smooth}
-body{min-height:100vh;color:var(--text);background:radial-gradient(circle at 50% 8%,rgba(47,105,255,.25),transparent 30%),radial-gradient(circle at 0% 80%,rgba(155,77,255,.16),transparent 28%),linear-gradient(145deg,#030611,#070d21 50%,#030612);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
-button,input{font-family:inherit}button{border:0;cursor:pointer}
-.app{width:100%;max-width:900px;margin:auto;min-height:100vh;padding:18px 16px 115px}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
-.logo{display:flex;align-items:center;gap:11px}.logoIcon{width:45px;height:45px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,#00e5ff,#5365ff,#a33cff);box-shadow:0 0 25px rgba(0,229,255,.28);font-size:22px}.logoTitle{font-size:18px;font-weight:800;letter-spacing:2px}.logoSub{color:var(--muted);font-size:10px;margin-top:3px;letter-spacing:1px}
-.online{display:flex;align-items:center;gap:7px;font-size:11px;color:#8affb8}.onlineDot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
-.hero{text-align:center;padding-top:5px}.orbWrap{width:285px;height:285px;margin:10px auto 15px;position:relative;display:grid;place-items:center}
-.orbOuter1,.orbOuter2,.orbOuter3{position:absolute;border-radius:50%;border:1px solid rgba(0,229,255,.35)}
-.orbOuter1{width:245px;height:245px;border-left-color:transparent;border-right-color:#9d52ff;animation:spin 9s linear infinite}
-.orbOuter2{width:270px;height:270px;border-top-color:#00e5ff;border-bottom-color:transparent;animation:spinReverse 12s linear infinite}
-.orbOuter3{width:292px;height:292px;border-left-color:rgba(255,255,255,.18);border-right-color:transparent;animation:spin 17s linear infinite}
-.orb{width:205px;height:205px;position:relative;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at center,rgba(255,255,255,.95) 0%,rgba(0,229,255,.90) 2%,rgba(0,229,255,.25) 13%,rgba(76,75,255,.42) 32%,rgba(76,75,255,.15) 53%,transparent 70%);box-shadow:0 0 35px rgba(0,229,255,.42),0 0 80px rgba(73,86,255,.30),inset 0 0 40px rgba(0,229,255,.15);transition:.3s}
-.orb::before{content:"";position:absolute;width:135px;height:135px;border-radius:50%;border:2px solid rgba(255,255,255,.28);box-shadow:0 0 25px rgba(0,229,255,.3)}
-.orbCore{width:27px;height:27px;border-radius:50%;background:white;box-shadow:0 0 12px white,0 0 30px #00e5ff,0 0 55px #00e5ff}
-.orb.listening{animation:listenPulse 1s infinite}.orb.thinking{animation:thinkPulse .55s infinite}
-@keyframes spin{to{transform:rotate(360deg)}}@keyframes spinReverse{to{transform:rotate(-360deg)}}@keyframes listenPulse{50%{transform:scale(1.08);box-shadow:0 0 55px rgba(0,229,255,.75),0 0 110px rgba(76,125,255,.45)}}@keyframes thinkPulse{50%{transform:scale(1.05)}}
-.hero h1{font-size:31px;letter-spacing:.5px}.hero p{color:var(--muted);font-size:13px;margin-top:7px}
-.commandCard{margin-top:10px;padding:15px;border-radius:24px;background:linear-gradient(145deg,rgba(17,28,64,.86),rgba(8,15,35,.88));border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.20);backdrop-filter:blur(20px)}
-.commandHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.commandHeader span:first-child{color:var(--muted);font-size:11px;letter-spacing:1px}.commandStatus{color:var(--cyan);font-size:11px}
-.commandText{min-height:67px;display:flex;align-items:center;padding:13px 15px;border-radius:16px;background:rgba(0,0,0,.20);color:#e4e9ff;font-size:14px;line-height:1.5}
-.actionRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.actionBtn{min-height:55px;border-radius:17px;color:white;font-size:14px;font-weight:bold;display:flex;justify-content:center;align-items:center;gap:8px;transition:.15s;box-shadow:0 12px 30px rgba(0,0,0,.15)}.actionBtn:active{transform:scale(.97)}
-.speakBtn{background:linear-gradient(135deg,#00a9ff,#00d6b5)}.stopBtn{background:linear-gradient(135deg,#ff4268,#a23dff)}.settingsBtn{background:linear-gradient(135deg,#3277ff,#7744ff)}
-.section{margin-top:18px}.sectionTitle{margin:0 3px 9px;color:var(--muted);font-size:11px;letter-spacing:1px}.quickGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.quickBtn{min-height:72px;padding:8px 4px;border-radius:17px;color:#e8edff;background:rgba(13,23,52,.75);border:1px solid var(--line);font-size:11px;transition:.15s}.quickBtn:active{transform:scale(.96)}.quickIcon{display:block;font-size:22px;margin-bottom:6px}
-.timerBox{display:none;margin-top:15px;padding:17px;text-align:center;border-radius:20px;background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.18)}.timerBox.show{display:block}.timerLabel{color:var(--muted);font-size:11px;letter-spacing:1px}.timer{margin-top:5px;font-size:35px;font-weight:800;color:#fff;text-shadow:0 0 20px rgba(0,229,255,.5)}.cancelTimer{margin-top:10px;padding:8px 14px;border-radius:10px;background:rgba(255,69,104,.12);color:#ff8ca3;font-size:11px}
-.chatCard{margin-top:18px;padding:14px;border-radius:22px;background:rgba(13,23,52,.75);border:1px solid var(--line)}.chatHeader{display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--line)}.chatHeader strong{font-size:13px}.clearBtn{background:transparent;color:#ff8ca3;font-size:11px}.messages{max-height:370px;overflow-y:auto;padding:13px 2px 3px}.message{display:flex;margin-bottom:10px}.message.user{justify-content:flex-end}.bubble{max-width:88%;padding:10px 12px;border-radius:15px;font-size:13px;line-height:1.5;white-space:pre-wrap;word-break:break-word}.message.ai .bubble{background:rgba(66,91,180,.13);border:1px solid rgba(76,125,255,.14)}.message.user .bubble{background:linear-gradient(135deg,#315eea,#7445e9)}
-.settingsCard{display:none;margin-top:18px;padding:16px;border-radius:22px;background:rgba(13,23,52,.80);border:1px solid var(--line)}.settingsCard.show{display:block}.settingsCard h3{font-size:17px;margin-bottom:7px}.settingsCard p{color:var(--muted);font-size:11px;line-height:1.5;margin-bottom:12px}.apiInput{width:100%;padding:13px;border-radius:13px;outline:none;border:1px solid var(--line);background:#060b1d;color:white;font-size:13px}.apiInput:focus{border-color:rgba(0,229,255,.55)}.saveApi,.testApi{width:100%;margin-top:9px;padding:13px;border-radius:13px}.saveApi{color:white;font-weight:bold;background:linear-gradient(135deg,#00a9ff,#7650ff)}.testApi{color:#dce4ff;background:rgba(255,255,255,.06);border:1px solid var(--line)}.apiStatus{margin-top:10px;padding:10px;border-radius:12px;font-size:11px;display:none}.apiStatus.show{display:block}.apiStatus.success{color:#8affb8;background:rgba(0,230,118,.08)}.apiStatus.error{color:#ff8fa5;background:rgba(255,69,104,.08)}
-.bottomNav{position:fixed;z-index:100;left:50%;bottom:12px;transform:translateX(-50%);width:min(92%,560px);padding:7px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;border-radius:21px;background:rgba(5,9,24,.88);border:1px solid rgba(111,144,255,.18);backdrop-filter:blur(20px);box-shadow:0 15px 50px rgba(0,0,0,.45)}.navBtn{padding:10px 4px;border-radius:14px;color:var(--muted);background:transparent;font-size:11px}.navBtn.active{color:white;background:linear-gradient(135deg,rgba(0,229,255,.14),rgba(155,77,255,.20))}
-.toast{position:fixed;z-index:1000;top:16px;left:50%;width:min(90%,430px);padding:12px 15px;transform:translate(-50%,-100px);border-radius:15px;background:#10172e;border:1px solid var(--line);color:white;text-align:center;font-size:12px;transition:.3s;box-shadow:0 15px 40px rgba(0,0,0,.4)}.toast.show{transform:translate(-50%,0)}
-@media(max-width:430px){.app{padding-left:12px;padding-right:12px}.hero h1{font-size:29px}.orbWrap{width:270px;height:270px}.orbOuter1{width:230px;height:230px}.orbOuter2{width:250px;height:250px}.orbOuter3{width:270px;height:270px}.orb{width:195px;height:195px}.quickGrid{gap:6px}}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#070914;
+  --card:#101426;
+  --card2:#151a30;
+  --line:rgba(255,255,255,.09);
+  --text:#f5f7ff;
+  --muted:#9299b5;
+  --blue:#4f7cff;
+  --cyan:#20d9ff;
+  --purple:#9b5cff;
+  --green:#35e89a;
+  --red:#ff5577;
+}
+
+html,body{
+  width:100%;
+  min-height:100%;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(78,124,255,.25),transparent 35%),
+    radial-gradient(circle at 100% 40%,rgba(155,92,255,.12),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.app{
+  width:100%;
+  max-width:900px;
+  margin:auto;
+  min-height:100vh;
+  padding-bottom:95px;
+}
+
+/* HEADER */
+
+.header{
+  height:72px;
+  padding:15px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:20;
+  backdrop-filter:blur(20px);
+  background:rgba(7,9,20,.72);
+  border-bottom:1px solid var(--line);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.brand-logo{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:
+    linear-gradient(135deg,#4f7cff,#a653ff);
+  box-shadow:
+    0 0 25px rgba(79,124,255,.35);
+  font-size:21px;
+}
+
+.brand h1{
+  font-size:18px;
+  letter-spacing:.5px;
+}
+
+.brand p{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:#9ea6c2;
+  font-size:11px;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  background:var(--green);
+  border-radius:50%;
+  box-shadow:0 0 12px var(--green);
+}
+
+/* PAGE */
+
+.page{
+  padding:25px 16px;
+}
+
+.hero{
+  text-align:center;
+  padding:10px 0 22px;
+}
+
+.hero h2{
+  font-size:27px;
+  margin-bottom:7px;
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* ORB */
+
+.orb-wrap{
+  display:flex;
+  justify-content:center;
+  margin:5px 0 24px;
+}
+
+.orb{
+  width:175px;
+  height:175px;
+  border-radius:50%;
+  position:relative;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 45% 40%,#fff 0 3%,#5de7ff 8%,#5a78ff 30%,#792fff 52%,transparent 70%);
+  box-shadow:
+    0 0 25px #536dff,
+    0 0 70px rgba(87,77,255,.5),
+    inset 0 0 35px rgba(255,255,255,.4);
+  animation:float 4s ease-in-out infinite;
+}
+
+.orb:before,
+.orb:after{
+  content:"";
+  position:absolute;
+  inset:-16px;
+  border:1px solid rgba(73,190,255,.3);
+  border-radius:50%;
+  animation:spin 8s linear infinite;
+}
+
+.orb:after{
+  inset:-30px;
+  border-color:rgba(155,92,255,.18);
+  animation-direction:reverse;
+  animation-duration:12s;
+}
+
+.orb.listening{
+  animation:pulse .8s infinite alternate;
+}
+
+.orb-core{
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.4);
+  backdrop-filter:blur(10px);
+}
+
+@keyframes float{
+  50%{transform:translateY(-8px)}
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+@keyframes pulse{
+  to{
+    transform:scale(1.08);
+    box-shadow:
+      0 0 35px #55ddff,
+      0 0 100px rgba(85,110,255,.8);
+  }
+}
+
+/* COMMAND */
+
+.command-card{
+  background:linear-gradient(145deg,rgba(21,26,48,.94),rgba(11,14,28,.95));
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.command-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.command-title span{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.command-input{
+  width:100%;
+  min-height:100px;
+  resize:none;
+  outline:none;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:14px;
+  color:var(--text);
+  background:#080b17;
+  line-height:1.5;
+}
+
+.command-input:focus{
+  border-color:rgba(79,124,255,.65);
+}
+
+.command-actions{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+
+.btn{
+  min-height:48px;
+  border-radius:14px;
+  padding:0 18px;
+  color:white;
+  background:#191f37;
+  border:1px solid var(--line);
+}
+
+.btn-primary{
+  flex:1;
+  background:linear-gradient(135deg,#4f7cff,#8c4fff);
+  box-shadow:0 8px 25px rgba(79,124,255,.25);
+}
+
+.btn-mic{
+  width:52px;
+  padding:0;
+  font-size:20px;
+}
+
+/* QUICK */
+
+.section{
+  margin-top:22px;
+}
+
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:11px;
+}
+
+.section-head h3{
+  font-size:14px;
+}
+
+.section-head span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.quick{
+  padding:14px;
+  text-align:left;
+  border-radius:16px;
+  color:white;
+  background:linear-gradient(145deg,#13182c,#0d1020);
+  border:1px solid var(--line);
+}
+
+.quick b{
+  display:block;
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.quick span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* RESPONSE */
+
+.response{
+  margin-top:20px;
+  display:none;
+}
+
+.response.show{
+  display:block;
+}
+
+.response-card{
+  background:#0d1120;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+}
+
+.response-head{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.response-head b{
+  font-size:12px;
+}
+
+.response-head span{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.response-text{
+  color:#e8ebf7;
+  line-height:1.65;
+  font-size:14px;
+  white-space:pre-wrap;
+}
+
+/* CHAT */
+
+.chat-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.message{
+  padding:13px 14px;
+  border-radius:17px;
+  max-width:90%;
+  font-size:13px;
+  line-height:1.55;
+  white-space:pre-wrap;
+}
+
+.message.user{
+  align-self:flex-end;
+  background:linear-gradient(135deg,#4f7cff,#754fff);
+}
+
+.message.ai{
+  align-self:flex-start;
+  background:#12172a;
+  border:1px solid var(--line);
+}
+
+/* SETTINGS */
+
+.setting-card{
+  background:#0e1221;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:12px;
+}
+
+.setting-card h3{
+  font-size:14px;
+  margin-bottom:6px;
+}
+
+.setting-card p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+  margin-bottom:13px;
+}
+
+.label{
+  display:block;
+  color:#b8bfd5;
+  font-size:11px;
+  margin-bottom:6px;
+}
+
+.input,
+.select{
+  width:100%;
+  height:46px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  outline:none;
+  padding:0 12px;
+  color:white;
+  background:#080b17;
+}
+
+.input:focus,
+.select:focus{
+  border-color:var(--blue);
+}
+
+.row{
+  display:flex;
+  gap:9px;
+}
+
+.row>*{
+  flex:1;
+}
+
+.model-status{
+  margin-top:10px;
+  padding:10px;
+  border-radius:11px;
+  font-size:11px;
+  color:#aeb6d0;
+  background:#080b17;
+}
+
+.model-status.success{
+  color:#6ff0b3;
+}
+
+.model-status.error{
+  color:#ff839d;
+}
+
+.small-btn{
+  height:42px;
+  border-radius:11px;
+  padding:0 14px;
+  background:#181e34;
+  color:white;
+  border:1px solid var(--line);
+}
+
+.full-btn{
+  width:100%;
+  margin-top:10px;
+}
+
+/* TIMER */
+
+.timer{
+  text-align:center;
+  padding:24px;
+  background:#0e1221;
+  border:1px solid var(--line);
+  border-radius:20px;
+}
+
+.timer-number{
+  font-size:52px;
+  font-weight:bold;
+  margin:10px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(900px,100%);
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(7,9,20,.88);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--line);
+  z-index:50;
+}
+
+.nav-inner{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:6px;
+}
+
+.nav-btn{
+  background:transparent;
+  color:#777f9d;
+  padding:8px 3px;
+  border-radius:12px;
+  font-size:10px;
+}
+
+.nav-btn div{
+  font-size:19px;
+  margin-bottom:3px;
+}
+
+.nav-btn.active{
+  color:#fff;
+  background:rgba(79,124,255,.14);
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:90px;
+  transform:translateX(-50%) translateY(20px);
+  opacity:0;
+  pointer-events:none;
+  padding:11px 15px;
+  border-radius:12px;
+  background:#171d31;
+  border:1px solid var(--line);
+  color:white;
+  font-size:12px;
+  z-index:100;
+  transition:.25s;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+  .app{
+    padding-bottom:20px;
+  }
+
+  .bottom-nav{
+    position:fixed;
+    left:18px;
+    top:50%;
+    bottom:auto;
+    transform:translateY(-50%);
+    width:78px;
+    padding:10px;
+    border:1px solid var(--line);
+    border-radius:22px;
+  }
+
+  .nav-inner{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .nav-btn{
+    min-height:62px;
+  }
+
+  .page{
+    padding-left:110px;
+    padding-right:25px;
+  }
+
+  .quick-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
 </style>
 </head>
+
 <body>
-<div class="toast" id="toast"></div>
+
 <div class="app">
+
 <header class="header">
-<div class="logo"><div class="logoIcon">✦</div><div><div class="logoTitle">JARVIS</div><div class="logoSub">AI PERSONAL ASSISTANT</div></div></div>
-<div class="online"><span class="onlineDot"></span><span id="onlineText">ONLINE</span></div>
+  <div class="brand">
+    <div class="brand-logo">✦</div>
+    <div>
+      <h1>JARVIS AI</h1>
+      <p>Personal AI Assistant</p>
+    </div>
+  </div>
+
+  <div class="status">
+    <span class="dot"></span>
+    <span id="statusText">Ready</span>
+  </div>
 </header>
-<section class="hero">
-<div class="orbWrap"><div class="orbOuter1"></div><div class="orbOuter2"></div><div class="orbOuter3"></div><div class="orb" id="orb"><div class="orbCore"></div></div></div>
-<h1>Hello, I'm JARVIS</h1><p id="heroSub">Your intelligent voice assistant</p>
+
+<main class="page">
+
+<!-- HOME -->
+<section id="homePage">
+
+  <div class="hero">
+    <h2>Good to see you, Boss.</h2>
+    <p>Ask me anything or use your voice.</p>
+  </div>
+
+  <div class="orb-wrap">
+    <div class="orb" id="orb">
+      <div class="orb-core"></div>
+    </div>
+  </div>
+
+  <div class="command-card">
+
+    <div class="command-title">
+      <span>COMMAND</span>
+      <span id="modelBadge">AUTO</span>
+    </div>
+
+    <textarea
+      id="commandInput"
+      class="command-input"
+      placeholder="Type your command here..."
+    ></textarea>
+
+    <div class="command-actions">
+      <button class="btn btn-primary" id="sendBtn">
+        ✦ Ask JARVIS
+      </button>
+
+      <button class="btn btn-mic" id="micBtn">
+        🎙️
+      </button>
+    </div>
+  </div>
+
+  <div id="response" class="response">
+    <div class="response-card">
+      <div class="response-head">
+        <b>JARVIS</b>
+        <span id="responseModel">AI</span>
+      </div>
+      <div id="responseText" class="response-text"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h3>Quick Commands</h3>
+      <span>Tap to run</span>
+    </div>
+
+    <div class="quick-grid">
+
+      <button class="quick" data-command="Open YouTube">
+        <b>▶️ YouTube</b>
+        <span>Open YouTube</span>
+      </button>
+
+      <button class="quick" data-command="Search Google for latest technology news">
+        <b>🔎 Google</b>
+        <span>Search anything</span>
+      </button>
+
+      <button class="quick" data-command="Open WhatsApp Web">
+        <b>💬 WhatsApp</b>
+        <span>Open WhatsApp</span>
+      </button>
+
+      <button class="quick" data-command="Tell me a useful fact">
+        <b>🧠 Ask AI</b>
+        <span>Ask JARVIS</span>
+      </button>
+
+    </div>
+  </div>
+
 </section>
-<section class="commandCard">
-<div class="commandHeader"><span>LAST COMMAND</span><span class="commandStatus" id="commandStatus">Ready</span></div>
-<div class="commandText" id="commandText">Tap Speak and tell me what you need...</div>
-<div class="actionRow">
-<button class="actionBtn speakBtn" id="speakButton" onclick="startListening()">🎙️ Speak</button>
-<button class="actionBtn settingsBtn" onclick="toggleSettings()">⚙️ Settings</button>
-</div>
+
+<!-- CHAT -->
+<section id="chatPage" class="hidden">
+
+  <div class="hero">
+    <h2>Conversation</h2>
+    <p>Your recent JARVIS conversation.</p>
+  </div>
+
+  <div id="chatList" class="chat-list"></div>
+
 </section>
-<section class="section">
-<div class="sectionTitle">QUICK COMMANDS</div>
-<div class="quickGrid">
-<button class="quickBtn" onclick="runCommand('YouTube kholo')"><span class="quickIcon">▶️</span>YouTube</button>
-<button class="quickBtn" onclick="runCommand('Google par Android search karo')"><span class="quickIcon">🔎</span>Search</button>
-<button class="quickBtn" onclick="runCommand('2 minute ka timer lagao')"><span class="quickIcon">⏱️</span>Timer</button>
-<button class="quickBtn" onclick="toggleSettings()"><span class="quickIcon">⚙️</span>Settings</button>
-</div>
+
+<!-- TIMER -->
+<section id="timerPage" class="hidden">
+
+  <div class="hero">
+    <h2>Smart Timer</h2>
+    <p>Set a simple countdown timer.</p>
+  </div>
+
+  <div class="timer">
+
+    <div class="timer-number" id="timerDisplay">
+      00:00
+    </div>
+
+    <div class="row">
+      <input
+        id="timerInput"
+        class="input"
+        type="number"
+        min="1"
+        placeholder="Minutes"
+      >
+
+      <button class="small-btn" id="timerStart">
+        Start
+      </button>
+
+      <button class="small-btn" id="timerStop">
+        Stop
+      </button>
+    </div>
+
+  </div>
+
 </section>
-<section class="timerBox" id="timerBox"><div class="timerLabel">JARVIS TIMER</div><div class="timer" id="timer">00:00</div><button class="cancelTimer" onclick="cancelTimer()">Cancel Timer</button></section>
-<section class="chatCard">
-<div class="chatHeader"><strong>Conversation</strong><button class="clearBtn" onclick="clearChat()">Clear</button></div>
-<div class="messages" id="messages"></div>
+
+<!-- SETTINGS -->
+<section id="settingsPage" class="hidden">
+
+  <div class="hero">
+    <h2>AI Settings</h2>
+    <p>Use your own Gemini API key and choose an available model.</p>
+  </div>
+
+  <div class="setting-card">
+
+    <h3>🔑 Gemini API Key</h3>
+
+    <p>
+      Enter your own Gemini API key. It stays in this browser's local storage.
+    </p>
+
+    <label class="label">API Key</label>
+
+    <input
+      id="apiKeyInput"
+      class="input"
+      type="password"
+      autocomplete="off"
+      placeholder="Paste your Gemini API key"
+    >
+
+    <div class="row" style="margin-top:10px">
+
+      <button class="small-btn" id="saveKeyBtn">
+        💾 Save
+      </button>
+
+      <button class="small-btn" id="loadModelsBtn">
+        🔄 Load Models
+      </button>
+
+      <button class="small-btn" id="testKeyBtn">
+        🧪 Test AI
+      </button>
+
+    </div>
+
+    <div id="keyStatus" class="model-status">
+      No key loaded.
+    </div>
+
+  </div>
+
+  <div class="setting-card">
+
+    <h3>🤖 Model</h3>
+
+    <p>
+      AUTO will select a compatible model from the models available to your key.
+    </p>
+
+    <label class="label">Available Models</label>
+
+    <select id="modelSelect" class="select">
+      <option value="__AUTO__">⚡ AUTO — Detect available model</option>
+    </select>
+
+    <label class="label" style="margin-top:12px">
+      Custom Model ID
+    </label>
+
+    <input
+      id="customModelInput"
+      class="input"
+      placeholder="Example: gemini-3.8-flash"
+    >
+
+    <button class="small-btn full-btn" id="useCustomBtn">
+      Use Custom Model
+    </button>
+
+    <div id="modelStatus" class="model-status">
+      Models have not been loaded yet.
+    </div>
+
+  </div>
+
+  <div class="setting-card">
+
+    <h3>🔊 Voice</h3>
+
+    <p>
+      JARVIS can speak its responses using your browser's speech engine.
+    </p>
+
+    <button class="small-btn full-btn" id="voiceToggleBtn">
+      🔊 Voice: ON
+    </button>
+
+  </div>
+
+  <div class="setting-card">
+
+    <h3>🗑️ Data</h3>
+
+    <p>
+      Clear the locally saved conversation history.
+    </p>
+
+    <button class="small-btn full-btn" id="clearChatBtn">
+      Clear Conversation
+    </button>
+
+  </div>
+
 </section>
-<section class="settingsCard" id="settingsCard">
-<h3>Gemini AI Settings</h3>
-<p>Enter your Google AI Studio Gemini API key. The key is saved only in this browser's localStorage. Do not publish a personal API key in a public website.</p>
-<input class="apiInput" id="apiKey" type="password" autocomplete="off" placeholder="Paste your Gemini API key here">
-<button class="saveApi" onclick="saveApiKey()">💾 Save Gemini API Key</button>
-<button class="testApi" onclick="testGemini()">🧪 Test Gemini API</button>
-<div class="apiStatus" id="apiStatus"></div>
-<p style="margin-top:12px">Model: <strong style="color:#dfe7ff">Gemini 2.5 Flash</strong></p>
-<p>Voice recognition does not require Gemini. Gemini is used for AI answers and intelligent conversations.</p>
-</section>
-</div>
-<nav class="bottomNav">
-<button class="navBtn active" onclick="goHome()">🏠<br>Home</button>
-<button class="navBtn" onclick="goChat()">💬<br>Chat</button>
-<button class="navBtn" onclick="toggleSettings()">⚙️<br>Settings</button>
+
+</main>
+
+<nav class="bottom-nav">
+
+  <div class="nav-inner">
+
+    <button class="nav-btn active" data-page="homePage">
+      <div>⌂</div>
+      Home
+    </button>
+
+    <button class="nav-btn" data-page="chatPage">
+      <div>💬</div>
+      Chat
+    </button>
+
+    <button class="nav-btn" data-page="timerPage">
+      <div>⏱</div>
+      Timer
+    </button>
+
+    <button class="nav-btn" data-page="settingsPage">
+      <div>⚙</div>
+      Settings
+    </button>
+
+  </div>
+
 </nav>
+
+</div>
+
+<div id="toast" class="toast"></div>
 
 <script>
 "use strict";
-const GEMINI_MODEL="gemini-2.5-flash";
-const GEMINI_URL="https://generativelanguage.googleapis.com/v1beta/models/"+GEMINI_MODEL+":generateContent";
-const orb=document.getElementById("orb"),commandText=document.getElementById("commandText"),commandStatus=document.getElementById("commandStatus"),onlineText=document.getElementById("onlineText"),heroSub=document.getElementById("heroSub"),speakButton=document.getElementById("speakButton"),messages=document.getElementById("messages"),settingsCard=document.getElementById("settingsCard"),apiKeyInput=document.getElementById("apiKey"),apiStatus=document.getElementById("apiStatus"),toast=document.getElementById("toast");
 
-let apiKey=localStorage.getItem("jarvis_gemini_api_key")||"";
-if(apiKey)apiKeyInput.value=apiKey;
-let conversation=[];
-try{conversation=JSON.parse(localStorage.getItem("jarvis_conversation")||"[]")}catch(e){conversation=[]}
-renderChat();
+/* =========================================================
+   JARVIS AI
+   Dynamic Gemini BYOK + Dynamic Model Detection
+   ========================================================= */
 
-const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-let recognition=null,listening=false;
+const $ = id => document.getElementById(id);
 
-if(SpeechRecognition){
-recognition=new SpeechRecognition();
-recognition.continuous=false;
-recognition.interimResults=true;
-recognition.maxAlternatives=1;
-recognition.lang="en-IN";
+/* ---------- STORAGE ---------- */
 
-recognition.onstart=function(){
-listening=true;orb.classList.add("listening");commandStatus.textContent="Listening...";onlineText.textContent="LISTENING";heroSub.textContent="I'm listening...";speakButton.innerHTML="⏹️ Stop Listening";speakButton.classList.remove("speakBtn");speakButton.classList.add("stopBtn");
+const STORAGE = {
+  key: "jarvis_gemini_api_key",
+  model: "jarvis_selected_model",
+  customModel: "jarvis_custom_model",
+  voice: "jarvis_voice_enabled",
+  history: "jarvis_chat_history",
+  models: "jarvis_available_models"
 };
-recognition.onresult=function(event){
-let text="";
-for(let i=event.resultIndex;i<event.results.length;i++)text+=event.results[i][0].transcript;
-text=text.trim();
-if(text)commandText.textContent=text;
-const lastResult=event.results[event.results.length-1];
-if(lastResult&&lastResult.isFinal)processCommand(text);
-};
-recognition.onerror=function(event){
-console.error("Speech recognition error:",event);stopListening();
-let message="Voice error: "+event.error;
-if(event.error==="not-allowed")message="Microphone permission denied. Chrome Site Settings → Microphone → Allow karo.";
-if(event.error==="service-not-allowed")message="Voice service blocked. HTTPS Chrome page par app open karke try karo.";
-if(event.error==="network")message="Voice service ke liye internet connection required hai.";
-showToast(message);
-};
-recognition.onend=function(){stopListening()};
-}else{speakButton.disabled=true;speakButton.innerHTML="🎙️ Voice Unsupported"}
 
-async function startListening(){
-if(!recognition){showToast("Chrome browser use karo. Is browser mein voice recognition supported nahi hai.");return}
-if(listening){try{recognition.stop()}catch(e){}stopListening();return}
-if(!window.isSecureContext&&location.hostname!=="localhost"){showToast("Voice ke liye HTTPS website required hai. App ko https:// URL se open karo.");return}
-try{
-if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
-const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-stream.getTracks().forEach(track=>track.stop());
-}
-recognition.lang="en-IN";recognition.continuous=false;recognition.interimResults=true;recognition.start();
-}catch(error){
-console.error("Microphone permission error:",error);
-if(error.name==="NotAllowedError"||error.name==="PermissionDeniedError")showToast("Microphone permission blocked. Chrome → Site settings → Microphone → Allow karo.");
-else if(error.name==="NotFoundError")showToast("Phone microphone nahi mila.");
-else if(error.name==="NotReadableError")showToast("Microphone kisi doosre app mein use ho raha hai.");
-else showToast("Microphone error: "+(error.message||error.name||"Unknown error"));
-}
-}
-function stopListening(){
-listening=false;orb.classList.remove("listening");commandStatus.textContent="Ready";onlineText.textContent="ONLINE";heroSub.textContent="Your intelligent voice assistant";speakButton.innerHTML="🎙️ Speak";speakButton.classList.remove("stopBtn");speakButton.classList.add("speakBtn");
-}
-async function processCommand(text){
-text=String(text||"").trim();if(!text)return;
-addMessage("user",text);commandText.textContent=text;commandStatus.textContent="Processing...";orb.classList.add("thinking");
-const localHandled=await handleLocalCommand(text);
-if(localHandled){orb.classList.remove("thinking");commandStatus.textContent="Completed";return}
-await askGemini(text);
-}
-function runCommand(text){processCommand(text)}
+/* ---------- STATE ---------- */
 
-async function handleLocalCommand(originalText){
-const text=originalText.toLowerCase().trim();
+let apiKey = localStorage.getItem(STORAGE.key) || "";
 
-if(text==="youtube"||text==="open youtube"||text.includes("youtube kholo")||text.includes("youtube khol")||text.includes("youtube open")){
-navigateTo("https://www.youtube.com/");jarvisReply("Sure. YouTube open kar raha hoon.");return true;
-}
-if(text.includes("youtube")&&(text.includes("search")||text.includes("song")||text.includes("video")||text.includes("play")||text.includes("chalao")||text.includes("chalado"))){
-let query=extractYouTubeQuery(originalText);if(!query)query="popular songs";
-navigateTo("https://www.youtube.com/results?search_query="+encodeURIComponent(query));jarvisReply("YouTube par "+query+" search kar raha hoon.");return true;
-}
-if(text.includes("google")&&(text.includes("search")||text.includes("find")||text.includes("look")||text.includes("par")||text.includes("pe"))){
-let query=extractGoogleQuery(originalText);if(!query)query=originalText.replace(/google/ig,"").trim();if(!query)query="Google";
-navigateTo("https://www.google.com/search?q="+encodeURIComponent(query));jarvisReply("Google par "+query+" search kar raha hoon.");return true;
-}
-if(text.startsWith("search ")||text.startsWith("find ")){
-let query=originalText.replace(/^search/i,"").replace(/^find/i,"").trim();
-if(query){navigateTo("https://www.google.com/search?q="+encodeURIComponent(query));jarvisReply("Searching for "+query);return true}
-}
-if(text.includes("facebook kholo")||text.includes("open facebook")){navigateTo("https://www.facebook.com/");jarvisReply("Facebook open kar raha hoon.");return true}
-if(text.includes("instagram kholo")||text.includes("open instagram")){navigateTo("https://www.instagram.com/");jarvisReply("Instagram open kar raha hoon.");return true}
-if(text.includes("whatsapp kholo")||text.includes("open whatsapp")){navigateTo("https://web.whatsapp.com/");jarvisReply("WhatsApp Web open kar raha hoon.");return true}
-if(text.includes("maps kholo")||text.includes("google maps kholo")||text.includes("open maps")){navigateTo("https://maps.google.com/");jarvisReply("Google Maps open kar raha hoon.");return true}
-if(text.includes("gmail kholo")||text.includes("open gmail")){navigateTo("https://mail.google.com/");jarvisReply("Gmail open kar raha hoon.");return true}
-if(text.includes("timer")||text.includes("minute")||text.includes("minutes")||text.includes("min")){
-const minutes=extractMinutes(originalText);
-if(minutes>0){startTimer(minutes);jarvisReply("Timer "+minutes+" minute ke liye set kar diya hai.");return true}
-}
-if(text.includes("jarvis settings")||text.includes("open settings")||text.includes("settings kholo")){toggleSettings();jarvisReply("JARVIS settings open kar di.");return true}
-return false;
-}
-function extractYouTubeQuery(text){
-return text.replace(/jarvis/ig,"").replace(/youtube/ig,"").replace(/please/ig,"").replace(/search/ig,"").replace(/play/ig,"").replace(/song/ig,"").replace(/video/ig,"").replace(/par/ig,"").replace(/pe/ig,"").replace(/karo please/ig,"").replace(/karo/ig,"").replace(/chalao/ig,"").replace(/chala do/ig,"").trim();
-}
-function extractGoogleQuery(text){
-return text.replace(/jarvis/ig,"").replace(/google/ig,"").replace(/search/ig,"").replace(/find/ig,"").replace(/look for/ig,"").replace(/search karo/ig,"").replace(/par/ig,"").replace(/pe/ig,"").replace(/karo/ig,"").replace(/please/ig,"").trim();
-}
-function extractMinutes(text){
-const minuteMatch=text.match(/(\d+(?:\.\d+)?)\s*(minute|minutes|min|mins)/i);
-if(minuteMatch)return Math.max(1,Math.round(Number(minuteMatch[1])));
-const secondMatch=text.match(/(\d+)\s*(second|seconds|sec|secs)/i);
-if(secondMatch)return Math.max(1,Math.ceil(Number(secondMatch[1])/60));
-return 0;
-}
-function navigateTo(url){try{window.location.assign(url)}catch(error){console.error(error);location.href=url}}
+let selectedModel =
+  localStorage.getItem(STORAGE.model) || "__AUTO__";
 
-async function askGemini(userText){
-if(!apiKey){
-orb.classList.remove("thinking");commandStatus.textContent="API Key Required";
-addMessage("ai","Main voice command samajh gaya, lekin AI answer ke liye Gemini API key Settings mein add karo.");
-speak("Gemini API key add karo.");toggleSettings();return;
-}
-const systemInstruction=`You are JARVIS, a friendly personal AI assistant.
-You are running inside a mobile web application.
-The user can speak Hindi, Hinglish and English.
-Understand natural Hindi/Hinglish.
-Give concise but useful answers.
-Do not falsely claim that you changed phone settings, opened native Android apps, sent SMS, made calls, or controlled the device.
-This browser assistant can perform web actions such as opening websites, Google searches, YouTube searches, timers and supported browser features.
-If a requested action cannot be performed by a browser, clearly say so and provide the closest useful alternative.
-You are JARVIS. Be friendly, natural and helpful.`;
-const recent=conversation.slice(-12);
-const contents=[{role:"user",parts:[{text:systemInstruction}]}];
-for(const item of recent)contents.push({role:item.role==="user"?"user":"model",parts:[{text:item.text}]});
-contents.push({role:"user",parts:[{text:userText}]});
-try{
-const response=await fetch(GEMINI_URL,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":apiKey},body:JSON.stringify({contents,generationConfig:{temperature:.7,maxOutputTokens:700}})});
-const data=await response.json();
-if(!response.ok)throw new Error(data?.error?.message||"Gemini API request failed.");
-const reply=extractGeminiResponse(data);if(!reply)throw new Error("Gemini returned an empty response.");
-addMessage("ai",reply);speak(reply);commandStatus.textContent="Ready";
-}catch(error){
-console.error("Gemini error:",error);let errorText=error.message||"Unknown Gemini error";
-addMessage("ai","Gemini se response nahi aa raha: "+errorText);showToast(errorText);commandStatus.textContent="Gemini Error";
-}finally{orb.classList.remove("thinking")}
-}
-function extractGeminiResponse(data){
-try{return(data.candidates?.[0]?.content?.parts||[]).map(part=>part.text||"").join("").trim()}catch(error){return""}
-}
-function jarvisReply(text){addMessage("ai",text);speak(text)}
-function speak(text){
-if(!("speechSynthesis"in window))return;
-try{
-window.speechSynthesis.cancel();
-const cleanText=String(text).replace(/[*_#`]/g,"").replace(/\[(.*?)\]\(.*?\)/g,"$1").trim();if(!cleanText)return;
-const utterance=new SpeechSynthesisUtterance(cleanText);utterance.rate=.95;utterance.pitch=.95;utterance.volume=1;
-const voices=window.speechSynthesis.getVoices();const preferred=voices.find(voice=>/en-IN|hi-IN/i.test(voice.lang));if(preferred)utterance.voice=preferred;
-window.speechSynthesis.speak(utterance);
-}catch(error){console.error("TTS error:",error)}
-}
-function addMessage(role,text){
-conversation.push({role,text,time:Date.now()});conversation=conversation.slice(-40);saveConversation();renderChat();
-}
-function renderChat(){
-messages.innerHTML="";
-conversation.forEach(item=>{
-const row=document.createElement("div");row.className="message "+(item.role==="user"?"user":"ai");
-const bubble=document.createElement("div");bubble.className="bubble";bubble.textContent=item.text;row.appendChild(bubble);messages.appendChild(row);
+let customModel =
+  localStorage.getItem(STORAGE.customModel) || "";
+
+let voiceEnabled =
+  localStorage.getItem(STORAGE.voice) !== "false";
+
+let availableModels = [];
+
+let conversation = [];
+
+let recognition = null;
+let isListening = false;
+
+let timerInterval = null;
+let timerSeconds = 0;
+
+/* ---------- INIT ---------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  loadSavedSettings();
+  setupNavigation();
+  setupQuickCommands();
+  setupEvents();
+  setupSpeechRecognition();
+  renderChat();
+
+  if(apiKey){
+    $("keyStatus").textContent = "✓ API key loaded from this browser.";
+    $("keyStatus").classList.add("success");
+
+    loadModels(true);
+  }
+
+  updateModelBadge();
+  updateVoiceButton();
 });
-messages.scrollTop=messages.scrollHeight;
-}
-function saveConversation(){try{localStorage.setItem("jarvis_conversation",JSON.stringify(conversation))}catch(error){console.error(error)}}
-function clearChat(){conversation=[];localStorage.removeItem("jarvis_conversation");renderChat();addMessage("ai","Conversation clear kar di. Batao, main kya karun?")}
 
-let timerInterval=null;
-function startTimer(minutes){
-cancelTimer(false);let seconds=Math.round(minutes*60);
-const timerBox=document.getElementById("timerBox"),timer=document.getElementById("timer");timerBox.classList.add("show");
-function updateTimer(){
-const mins=Math.floor(seconds/60),secs=seconds%60;timer.textContent=String(mins).padStart(2,"0")+":"+String(secs).padStart(2,"0");
-if(seconds<=0){clearInterval(timerInterval);timerInterval=null;showToast("⏰ Timer finished!");jarvisReply("Your timer is finished.");return}seconds--;
-}
-updateTimer();timerInterval=setInterval(updateTimer,1000);
-}
-function cancelTimer(hide=true){if(timerInterval){clearInterval(timerInterval);timerInterval=null}if(hide)document.getElementById("timerBox").classList.remove("show")}
+/* ---------- SETTINGS ---------- */
 
-function toggleSettings(){
-settingsCard.classList.toggle("show");
-if(settingsCard.classList.contains("show"))setTimeout(()=>settingsCard.scrollIntoView({behavior:"smooth",block:"center"}),50);
+function loadSavedSettings(){
+
+  $("apiKeyInput").value = apiKey;
+
+  $("customModelInput").value = customModel;
+
+  if(selectedModel){
+    $("modelSelect").value = selectedModel;
+  }
 }
-function saveApiKey(){
-const key=apiKeyInput.value.trim();
-if(!key){showApiStatus("Please enter a Gemini API key.",false);return}
-localStorage.setItem("jarvis_gemini_api_key",key);apiKey=key;showApiStatus("Gemini API key saved successfully.",true);showToast("Gemini API key saved.");
+
+function saveKey(){
+
+  const key = $("apiKeyInput").value.trim();
+
+  if(!key){
+    showToast("API key enter karo.");
+    return;
+  }
+
+  apiKey = key;
+
+  localStorage.setItem(STORAGE.key, apiKey);
+
+  $("keyStatus").textContent =
+    "✓ API key saved locally.";
+
+  $("keyStatus").className =
+    "model-status success";
+
+  showToast("API key saved.");
+
+  loadModels();
 }
-async function testGemini(){
-const key=apiKeyInput.value.trim()||apiKey;
-if(!key){showApiStatus("First enter your Gemini API key.",false);return}
-showApiStatus("Testing Gemini...",true);
-try{
-const response=await fetch(GEMINI_URL,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify({contents:[{parts:[{text:"Reply with exactly: JARVIS ONLINE"}]}],generationConfig:{maxOutputTokens:20}})});
-const data=await response.json();if(!response.ok)throw new Error(data?.error?.message||"API test failed.");
-const result=extractGeminiResponse(data);if(result){showApiStatus("✅ Gemini API working successfully.",true);showToast("Gemini API is working.")}else throw new Error("Empty Gemini response.");
-}catch(error){console.error(error);showApiStatus("❌ "+(error.message||"Gemini API test failed."),false)}
+
+/* ---------- MODEL DISCOVERY ---------- */
+
+async function loadModels(silent = false){
+
+  const key = $("apiKeyInput").value.trim() || apiKey;
+
+  if(!key){
+
+    if(!silent){
+      showToast("Pehle API key enter karo.");
+    }
+
+    return;
+  }
+
+  apiKey = key;
+
+  $("modelStatus").className = "model-status";
+  $("modelStatus").textContent =
+    "⏳ Available models detect ho rahe hain...";
+
+  $("loadModelsBtn").textContent = "⏳ Loading...";
+
+  try{
+
+    /*
+      Google Gemini Models API.
+      API key is sent through x-goog-api-key.
+    */
+
+    const response = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models",
+      {
+        method:"GET",
+        headers:{
+          "x-goog-api-key": key
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if(!response.ok){
+
+      throw new Error(
+        data?.error?.message ||
+        "Unable to load models."
+      );
+    }
+
+    const models = Array.isArray(data.models)
+      ? data.models
+      : [];
+
+    /*
+      We only show models which advertise
+      generateContent support because this
+      JARVIS text chat uses that interface.
+    */
+
+    availableModels = models
+      .filter(model => {
+
+        const methods =
+          model.supportedGenerationMethods || [];
+
+        return methods.includes("generateContent");
+      })
+      .map(model => {
+
+        const cleanName =
+          String(model.name || "")
+            .replace(/^models\//,"");
+
+        return {
+          id: cleanName,
+          name: model.displayName || cleanName,
+          description: model.description || "",
+          version: model.version || "",
+          methods: model.supportedGenerationMethods || []
+        };
+      })
+      .filter(model => model.id);
+
+    /*
+      Sort:
+      Flash first, then remaining compatible models.
+    */
+
+    availableModels.sort((a,b) => {
+
+      const af = /flash/i.test(a.id) ? 0 : 1;
+      const bf = /flash/i.test(b.id) ? 0 : 1;
+
+      if(af !== bf) return af - bf;
+
+      return a.id.localeCompare(b.id);
+    });
+
+    localStorage.setItem(
+      STORAGE.models,
+      JSON.stringify(availableModels)
+    );
+
+    populateModelSelect();
+
+    $("modelStatus").className =
+      "model-status success";
+
+    $("modelStatus").textContent =
+      `✓ ${availableModels.length} compatible model(s) found.`;
+
+    $("keyStatus").className =
+      "model-status success";
+
+    $("keyStatus").textContent =
+      "✓ API key connected successfully.";
+
+    updateModelBadge();
+
+    if(!silent){
+      showToast(
+        `${availableModels.length} models detected.`
+      );
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    $("modelStatus").className =
+      "model-status error";
+
+    $("modelStatus").textContent =
+      "❌ " + friendlyError(error);
+
+    if(!silent){
+      showToast("Models load nahi hue.");
+    }
+
+  }finally{
+
+    $("loadModelsBtn").textContent =
+      "🔄 Load Models";
+  }
 }
-function showApiStatus(text,success){apiStatus.textContent=text;apiStatus.className="apiStatus show "+(success?"success":"error")}
-let toastTimer=null;
-function showToast(text){toast.textContent=text;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),3500)}
-function goHome(){window.scrollTo({top:0,behavior:"smooth"})}
-function goChat(){document.querySelector(".chatCard").scrollIntoView({behavior:"smooth",block:"center"})}
-apiKeyInput.addEventListener("keydown",function(event){if(event.key==="Enter")saveApiKey()});
-function checkVoiceSupport(){if(!SpeechRecognition){showToast("Voice recognition Chrome mein try karo.");return false}return true}
-if(conversation.length===0)addMessage("ai","Hello! I'm JARVIS. Speak button dabao aur command bolo.");
-if("speechSynthesis"in window)window.speechSynthesis.onvoiceschanged=function(){window.speechSynthesis.getVoices()};
-window.addEventListener("load",function(){checkVoiceSupport()});
+
+function populateModelSelect(){
+
+  const select = $("modelSelect");
+
+  select.innerHTML = "";
+
+  const auto = document.createElement("option");
+
+  auto.value = "__AUTO__";
+  auto.textContent =
+    "⚡ AUTO — Detect best available model";
+
+  select.appendChild(auto);
+
+  availableModels.forEach(model => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = model.id;
+
+    option.textContent =
+      `${model.name} — ${model.id}`;
+
+    select.appendChild(option);
+  });
+
+  if(
+    selectedModel &&
+    availableModels.some(
+      m => m.id === selectedModel
+    )
+  ){
+
+    select.value = selectedModel;
+
+  }else{
+
+    select.value = "__AUTO__";
+
+    selectedModel = "__AUTO__";
+
+    localStorage.setItem(
+      STORAGE.model,
+      selectedModel
+    );
+  }
+
+  updateModelBadge();
+}
+
+/* ---------- AUTO MODEL ---------- */
+
+function getBestModel(){
+
+  if(
+    selectedModel &&
+    selectedModel !== "__AUTO__" &&
+    availableModels.some(
+      m => m.id === selectedModel
+    )
+  ){
+    return selectedModel;
+  }
+
+  /*
+    Prefer current Flash models when available.
+    Otherwise use the first compatible model returned
+    by Google's API.
+  */
+
+  const preferred = [
+    "gemini-3.8-flash",
+    "gemini-3.7-flash",
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    "gemini-3.5-flash-lite",
+    "gemini-3.1-flash-lite"
+  ];
+
+  for(const id of preferred){
+
+    if(
+      availableModels.some(
+        model => model.id === id
+      )
+    ){
+      return id;
+    }
+  }
+
+  if(availableModels.length){
+    return availableModels[0].id;
+  }
+
+  /*
+    If models weren't loaded yet, use manually
+    supplied custom model if available.
+  */
+
+  if(customModel.trim()){
+    return customModel.trim();
+  }
+
+  return "gemini-3.8-flash";
+}
+
+/* ---------- CUSTOM MODEL ---------- */
+
+function useCustomModel(){
+
+  const model =
+    $("customModelInput").value.trim();
+
+  if(!model){
+
+    showToast("Custom model ID enter karo.");
+    return;
+  }
+
+  customModel = model;
+
+  selectedModel = model;
+
+  localStorage.setItem(
+    STORAGE.customModel,
+    customModel
+  );
+
+  localStorage.setItem(
+    STORAGE.model,
+    selectedModel
+  );
+
+  $("modelStatus").className =
+    "model-status";
+
+  $("modelStatus").textContent =
+    `Custom model selected: ${model}`;
+
+  updateModelBadge();
+
+  showToast("Custom model selected.");
+}
+
+/* ---------- MODEL SELECT ---------- */
+
+$("modelSelect").addEventListener("change", () => {
+
+  selectedModel =
+    $("modelSelect").value;
+
+  localStorage.setItem(
+    STORAGE.model,
+    selectedModel
+  );
+
+  updateModelBadge();
+});
+
+/* ---------- MODEL BADGE ---------- */
+
+function updateModelBadge(){
+
+  let model = selectedModel;
+
+  if(model === "__AUTO__"){
+    model = "AUTO";
+  }
+
+  $("modelBadge").textContent =
+    model.length > 25
+      ? model.substring(0,25) + "..."
+      : model;
+}
+
+/* ---------- AI REQUEST ---------- */
+
+async function askGemini(prompt){
+
+  if(!apiKey){
+
+    throw new Error(
+      "Gemini API key missing. Settings me API key add karo."
+    );
+  }
+
+  /*
+    If we have not discovered models yet,
+    try discovery first.
+  */
+
+  if(!availableModels.length){
+
+    try{
+      await loadModels(true);
+    }catch(e){}
+  }
+
+  let model = getBestModel();
+
+  const result =
+    await requestModel(model,prompt);
+
+  /*
+    Automatic fallback:
+    only attempt when the selected model itself
+    appears unavailable/not found.
+  */
+
+  if(
+    !result.ok &&
+    shouldFallback(result.error,result.status) &&
+    availableModels.length > 0
+  ){
+
+    const fallback =
+      getFallbackModel(model);
+
+    if(fallback){
+
+      $("statusText").textContent =
+        "Fallback model";
+
+      const retry =
+        await requestModel(
+          fallback,
+          prompt
+        );
+
+      if(retry.ok){
+
+        selectedModel = fallback;
+
+        localStorage.setItem(
+          STORAGE.model,
+          fallback
+        );
+
+        updateModelBadge();
+
+        return retry.text;
+      }
+    }
+  }
+
+  if(!result.ok){
+
+    throw new Error(
+      result.error ||
+      "AI request failed."
+    );
+  }
+
+  return result.text;
+}
+
+/* ---------- MODEL REQUEST ---------- */
+
+async function requestModel(model,prompt){
+
+  try{
+
+    const url =
+      "https://generativelanguage.googleapis.com/v1beta/models/" +
+      encodeURIComponent(model) +
+      ":generateContent";
+
+    const historyContents =
+      conversation
+        .slice(-12)
+        .map(item => ({
+          role:
+            item.role === "user"
+              ? "user"
+              : "model",
+          parts:[
+            {
+              text:item.text
+            }
+          ]
+        }));
+
+    /*
+      Current prompt is added as latest user message.
+    */
+
+    historyContents.push({
+      role:"user",
+      parts:[
+        {
+          text:prompt
+        }
+      ]
+    });
+
+    const payload = {
+
+      systemInstruction:{
+        parts:[
+          {
+            text:
+`You are JARVIS, a smart, friendly and helpful personal AI assistant.
+
+Rules:
+- Answer clearly and naturally.
+- Keep simple questions concise.
+- For technical questions, give practical steps.
+- Never claim you performed a real-world action unless the browser actually performed it.
+- You can understand Hindi, Hinglish and English.
+- If the user asks in Hindi/Hinglish, answer in the same style.
+- Be helpful, calm and conversational.`
+          }
+        ]
+      },
+
+      contents:historyContents,
+
+      generationConfig:{
+        temperature:.7,
+        maxOutputTokens:900
+      }
+    };
+
+    const response =
+      await fetch(url,{
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json",
+          "x-goog-api-key":apiKey
+        },
+
+        body:JSON.stringify(payload)
+      });
+
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      return {
+        ok:false,
+        status:response.status,
+        error:
+          data?.error?.message ||
+          `HTTP ${response.status}`
+      };
+    }
+
+    const text =
+      data?.candidates?.[0]?.content?.parts
+        ?.map(part => part.text || "")
+        .join("")
+        .trim();
+
+    if(!text){
+
+      return {
+        ok:false,
+        status:200,
+        error:"Model returned an empty response."
+      };
+    }
+
+    return {
+      ok:true,
+      text,
+      model
+    };
+
+  }catch(error){
+
+    return {
+      ok:false,
+      status:0,
+      error:error.message
+    };
+  }
+}
+
+/* ---------- FALLBACK ---------- */
+
+function shouldFallback(error,status){
+
+  const msg =
+    String(error || "").toLowerCase();
+
+  /*
+    Don't fallback for invalid API keys,
+    permission errors or quota errors.
+  */
+
+  if(
+    status === 401 ||
+    status === 403 ||
+    status === 429
+  ){
+    return false;
+  }
+
+  return (
+    status === 404 ||
+    msg.includes("not found") ||
+    msg.includes("not supported") ||
+    msg.includes("unknown model") ||
+    msg.includes("model")
+  );
+}
+
+function getFallbackModel(current){
+
+  const candidates =
+    availableModels
+      .map(m => m.id)
+      .filter(id => id !== current);
+
+  if(!candidates.length){
+    return null;
+  }
+
+  const flash =
+    candidates.find(
+      id => /flash/i.test(id)
+    );
+
+  return flash || candidates[0];
+}
+
+/* ---------- COMMAND PROCESSING ---------- */
+
+async function processCommand(command){
+
+  const text =
+    command.trim();
+
+  if(!text) return;
+
+  addMessage("user",text);
+
+  $("commandInput").value = "";
+
+  $("response").classList.add("show");
+
+  $("responseText").textContent =
+    "Thinking...";
+
+  $("statusText").textContent =
+    "Thinking";
+
+  try{
+
+    const local =
+      await handleLocalCommand(text);
+
+    if(local){
+
+      showResponse(
+        local.text,
+        local.source || "Command"
+      );
+
+      if(local.speak){
+        speak(local.text);
+      }
+
+      $("statusText").textContent =
+        "Ready";
+
+      return;
+    }
+
+    const answer =
+      await askGemini(text);
+
+    showResponse(
+      answer,
+      getBestModel()
+    );
+
+    addMessage("ai",answer);
+
+    speak(answer);
+
+    $("statusText").textContent =
+      "Ready";
+
+  }catch(error){
+
+    console.error(error);
+
+    const message =
+      friendlyError(error);
+
+    showResponse(
+      "❌ " + message,
+      "Error"
+    );
+
+    addMessage(
+      "ai",
+      "❌ " + message
+    );
+
+    $("statusText").textContent =
+      "Error";
+  }
+}
+
+/* ---------- LOCAL COMMANDS ---------- */
+
+async function handleLocalCommand(text){
+
+  const lower =
+    text.toLowerCase().trim();
+
+  /* YouTube */
+
+  if(
+    lower === "open youtube" ||
+    lower.includes("youtube kholo")
+  ){
+
+    window.open(
+      "https://www.youtube.com/",
+      "_blank"
+    );
+
+    return {
+      text:"YouTube opened.",
+      source:"YouTube",
+      speak:true
+    };
+  }
+
+  /* YouTube search */
+
+  if(
+    lower.startsWith("search youtube") ||
+    lower.startsWith("youtube search")
+  ){
+
+    let query =
+      text
+        .replace(/search youtube/i,"")
+        .replace(/youtube search/i,"")
+        .trim();
+
+    if(!query){
+      query = "trending videos";
+    }
+
+    window.open(
+      "https://www.youtube.com/results?search_query=" +
+      encodeURIComponent(query),
+      "_blank"
+    );
+
+    return {
+      text:`YouTube search opened for "${query}".`,
+      source:"YouTube",
+      speak:true
+    };
+  }
+
+  /* Google */
+
+  if(
+    lower.startsWith("search google") ||
+    lower.startsWith("google search")
+  ){
+
+    let query =
+      text
+        .replace(/search google/i,"")
+        .replace(/google search/i,"")
+        .trim();
+
+    if(!query){
+      query = "latest technology news";
+    }
+
+    window.open(
+      "https://www.google.com/search?q=" +
+      encodeURIComponent(query),
+      "_blank"
+    );
+
+    return {
+      text:`Google search opened for "${query}".`,
+      source:"Google",
+      speak:true
+    };
+  }
+
+  /* Facebook */
+
+  if(
+    lower === "open facebook"
+  ){
+
+    window.open(
+      "https://www.facebook.com/",
+      "_blank"
+    );
+
+    return {
+      text:"Facebook opened.",
+      source:"Facebook",
+      speak:true
+    };
+  }
+
+  /* Instagram */
+
+  if(
+    lower === "open instagram"
+  ){
+
+    window.open(
+      "https://www.instagram.com/",
+      "_blank"
+    );
+
+    return {
+      text:"Instagram opened.",
+      source:"Instagram",
+      speak:true
+    };
+  }
+
+  /* WhatsApp */
+
+  if(
+    lower === "open whatsapp" ||
+    lower === "open whatsapp web"
+  ){
+
+    window.open(
+      "https://web.whatsapp.com/",
+      "_blank"
+    );
+
+    return {
+      text:"WhatsApp Web opened.",
+      source:"WhatsApp",
+      speak:true
+    };
+  }
+
+  /* Gmail */
+
+  if(
+    lower === "open gmail"
+  ){
+
+    window.open(
+      "https://mail.google.com/",
+      "_blank"
+    );
+
+    return {
+      text:"Gmail opened.",
+      source:"Gmail",
+      speak:true
+    };
+  }
+
+  /* Maps */
+
+  if(
+    lower === "open maps" ||
+    lower === "open google maps"
+  ){
+
+    window.open(
+      "https://maps.google.com/",
+      "_blank"
+    );
+
+    return {
+      text:"Google Maps opened.",
+      source:"Maps",
+      speak:true
+    };
+  }
+
+  /* Settings */
+
+  if(
+    lower === "open settings" ||
+    lower === "settings kholo"
+  ){
+
+    showPage("settingsPage");
+
+    return {
+      text:"Settings opened.",
+      source:"Settings",
+      speak:true
+    };
+  }
+
+  /* Timer */
+
+  const timerMatch =
+    lower.match(
+      /(?:set|start)\s+(?:a\s+)?timer\s+(?:for\s+)?(\d+)\s*(second|seconds|minute|minutes|min|mins|sec|secs)?/
+    );
+
+  if(timerMatch){
+
+    const amount =
+      parseInt(timerMatch[1],10);
+
+    const unit =
+      timerMatch[2] || "minutes";
+
+    let seconds =
+      /sec/i.test(unit)
+        ? amount
+        : amount * 60;
+
+    startTimer(seconds);
+    showPage("timerPage");
+
+    return {
+      text:
+        `Timer started for ${formatTime(seconds)}.`,
+      source:"Timer",
+      speak:true
+    };
+  }
+
+  return null;
+}
+
+/* ---------- SEND ---------- */
+
+async function sendCurrent(){
+
+  const command =
+    $("commandInput").value.trim();
+
+  if(!command){
+
+    showToast("Command enter karo.");
+    return;
+  }
+
+  await processCommand(command);
+}
+
+$("sendBtn").addEventListener(
+  "click",
+  sendCurrent
+);
+
+$("commandInput").addEventListener(
+  "keydown",
+  e => {
+
+    if(
+      e.key === "Enter" &&
+      !e.shiftKey
+    ){
+
+      e.preventDefault();
+      sendCurrent();
+    }
+  }
+);
+
+/* ---------- QUICK COMMANDS ---------- */
+
+function setupQuickCommands(){
+
+  document
+    .querySelectorAll(".quick")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const command =
+            button.dataset.command;
+
+          $("commandInput").value =
+            command;
+
+          processCommand(command);
+        }
+      );
+    });
+}
+
+/* ---------- CHAT ---------- */
+
+function loadHistory(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        STORAGE.history
+      ) || "[]"
+    );
+
+  }catch(e){
+
+    return [];
+  }
+}
+
+conversation =
+  loadHistory();
+
+function saveHistory(){
+
+  /*
+    Keep storage small.
+  */
+
+  conversation =
+    conversation.slice(-30);
+
+  localStorage.setItem(
+    STORAGE.history,
+    JSON.stringify(conversation)
+  );
+}
+
+function addMessage(role,text){
+
+  conversation.push({
+    role,
+    text,
+    time:Date.now()
+  });
+
+  saveHistory();
+
+  renderChat();
+}
+
+function renderChat(){
+
+  const list =
+    $("chatList");
+
+  list.innerHTML = "";
+
+  if(!conversation.length){
+
+    const empty =
+      document.createElement("div");
+
+    empty.className =
+      "setting-card";
+
+    empty.innerHTML =
+      "<h3>No conversation yet</h3>" +
+      "<p>Ask JARVIS something from the Home tab.</p>";
+
+    list.appendChild(empty);
+
+    return;
+  }
+
+  conversation.forEach(item => {
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "message " +
+      (item.role === "user"
+        ? "user"
+        : "ai");
+
+    div.textContent =
+      item.text;
+
+    list.appendChild(div);
+  });
+}
+
+/* ---------- RESPONSE ---------- */
+
+function showResponse(text,model){
+
+  $("responseText").textContent =
+    text;
+
+  $("responseModel").textContent =
+    model || "AI";
+}
+
+/* ---------- VOICE ---------- */
+
+function setupSpeechRecognition(){
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition){
+
+    $("micBtn").title =
+      "Speech recognition is not supported.";
+
+    return;
+  }
+
+  recognition =
+    new SpeechRecognition();
+
+  recognition.lang = "en-IN";
+
+  recognition.continuous = false;
+
+  recognition.interimResults = true;
+
+  recognition.onstart = () => {
+
+    isListening = true;
+
+    $("orb").classList.add(
+      "listening"
+    );
+
+    $("statusText").textContent =
+      "Listening...";
+
+    $("micBtn").textContent =
+      "🛑";
+  };
+
+  recognition.onresult = event => {
+
+    let finalText = "";
+    let interimText = "";
+
+    for(
+      let i = event.resultIndex;
+      i < event.results.length;
+      i++
+    ){
+
+      const transcript =
+        event.results[i][0].transcript;
+
+      if(
+        event.results[i].isFinal
+      ){
+        finalText += transcript;
+      }else{
+        interimText += transcript;
+      }
+    }
+
+    $("commandInput").value =
+      finalText || interimText;
+
+    if(finalText){
+
+      processCommand(finalText);
+    }
+  };
+
+  recognition.onerror = event => {
+
+    console.error(
+      "Speech error:",
+      event.error
+    );
+
+    let message =
+      "Voice error: " +
+      event.error;
+
+    if(event.error === "not-allowed"){
+      message =
+        "Microphone permission denied. Browser settings me microphone allow karo.";
+    }
+
+    showToast(message);
+  };
+
+  recognition.onend = () => {
+
+    isListening = false;
+
+    $("orb").classList.remove(
+      "listening"
+    );
+
+    $("statusText").textContent =
+      "Ready";
+
+    $("micBtn").textContent =
+      "🎙️";
+  };
+}
+
+$("micBtn").addEventListener(
+  "click",
+  () => {
+
+    if(!recognition){
+
+      showToast(
+        "Is browser me voice recognition supported nahi hai."
+      );
+
+      return;
+    }
+
+    if(isListening){
+
+      recognition.stop();
+      return;
+    }
+
+    try{
+
+      recognition.start();
+
+    }catch(error){
+
+      console.error(error);
+
+      showToast(
+        "Voice start nahi ho paaya."
+      );
+    }
+  }
+);
+
+/* ---------- SPEAK ---------- */
+
+function speak(text){
+
+  if(!voiceEnabled) return;
+
+  if(!("speechSynthesis" in window)){
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  /*
+    Don't speak very large responses.
+  */
+
+  const clean =
+    String(text)
+      .replace(/[*#_`]/g,"")
+      .slice(0,2500);
+
+  const utterance =
+    new SpeechSynthesisUtterance(clean);
+
+  utterance.lang = "en-IN";
+
+  utterance.rate = .95;
+
+  utterance.pitch = 1;
+
+  speechSynthesis.speak(
+    utterance
+  );
+}
+
+function updateVoiceButton(){
+
+  $("voiceToggleBtn").textContent =
+    voiceEnabled
+      ? "🔊 Voice: ON"
+      : "🔇 Voice: OFF";
+}
+
+/* ---------- NAVIGATION ---------- */
+
+function setupNavigation(){
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          showPage(
+            button.dataset.page
+          );
+        }
+      );
+    });
+}
+
+function showPage(pageId){
+
+  [
+    "homePage",
+    "chatPage",
+    "timerPage",
+    "settingsPage"
+  ].forEach(id => {
+
+    $(id).classList.toggle(
+      "hidden",
+      id !== pageId
+    );
+  });
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.page === pageId
+      );
+    });
+
+  if(pageId === "chatPage"){
+    renderChat();
+  }
+}
+
+/* ---------- TIMER ---------- */
+
+function startTimer(seconds){
+
+  stopTimer();
+
+  timerSeconds =
+    Math.max(1,seconds);
+
+  updateTimerDisplay();
+
+  timerInterval =
+    setInterval(() => {
+
+      timerSeconds--;
+
+      updateTimerDisplay();
+
+      if(timerSeconds <= 0){
+
+        stopTimer();
+
+        timerFinished();
+      }
+
+    },1000);
+}
+
+function stopTimer(){
+
+  if(timerInterval){
+
+    clearInterval(
+      timerInterval
+    );
+
+    timerInterval = null;
+  }
+}
+
+function updateTimerDisplay(){
+
+  $("timerDisplay").textContent =
+    formatTime(timerSeconds);
+}
+
+function formatTime(seconds){
+
+  seconds =
+    Math.max(
+      0,
+      Number(seconds) || 0
+    );
+
+  const mins =
+    Math.floor(seconds / 60);
+
+  const secs =
+    seconds % 60;
+
+  return (
+    String(mins).padStart(2,"0") +
+    ":" +
+    String(secs).padStart(2,"0")
+  );
+}
+
+function timerFinished(){
+
+  $("timerDisplay").textContent =
+    "00:00";
+
+  showToast(
+    "⏰ Timer finished!"
+  );
+
+  speak(
+    "Boss, your timer has finished."
+  );
+}
+
+/* ---------- GENERAL EVENTS ---------- */
+
+function setupEvents(){
+
+  $("saveKeyBtn")
+    .addEventListener(
+      "click",
+      saveKey
+    );
+
+  $("loadModelsBtn")
+    .addEventListener(
+      "click",
+      () => loadModels(false)
+    );
+
+  $("testKeyBtn")
+    .addEventListener(
+      "click",
+      testAI
+    );
+
+  $("useCustomBtn")
+    .addEventListener(
+      "click",
+      useCustomModel
+    );
+
+  $("voiceToggleBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        voiceEnabled =
+          !voiceEnabled;
+
+        localStorage.setItem(
+          STORAGE.voice,
+          String(voiceEnabled)
+        );
+
+        updateVoiceButton();
+
+        showToast(
+          voiceEnabled
+            ? "Voice ON"
+            : "Voice OFF"
+        );
+      }
+    );
+
+  $("clearChatBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        conversation = [];
+
+        saveHistory();
+
+        renderChat();
+
+        showToast(
+          "Conversation cleared."
+        );
+      }
+    );
+
+  $("timerStart")
+    .addEventListener(
+      "click",
+      () => {
+
+        const minutes =
+          parseInt(
+            $("timerInput").value,
+            10
+          );
+
+        if(!minutes || minutes < 1){
+
+          showToast(
+            "Minutes enter karo."
+          );
+
+          return;
+        }
+
+        startTimer(
+          minutes * 60
+        );
+      }
+    );
+
+  $("timerStop")
+    .addEventListener(
+      "click",
+      () => {
+
+        stopTimer();
+
+        timerSeconds = 0;
+
+        updateTimerDisplay();
+
+        showToast(
+          "Timer stopped."
+        );
+      }
+    );
+}
+
+/* ---------- TEST AI ---------- */
+
+async function testAI(){
+
+  const key =
+    $("apiKeyInput").value.trim();
+
+  if(!key){
+
+    showToast(
+      "Pehle API key enter karo."
+    );
+
+    return;
+  }
+
+  apiKey = key;
+
+  $("testKeyBtn").textContent =
+    "⏳ Testing...";
+
+  $("keyStatus").className =
+    "model-status";
+
+  $("keyStatus").textContent =
+    "Testing selected model...";
+
+  try{
+
+    if(!availableModels.length){
+
+      await loadModels(true);
+    }
+
+    const model =
+      getBestModel();
+
+    const result =
+      await requestModel(
+        model,
+        "Reply with exactly: JARVIS ONLINE"
+      );
+
+    if(!result.ok){
+
+      throw new Error(
+        result.error
+      );
+    }
+
+    $("keyStatus").className =
+      "model-status success";
+
+    $("keyStatus").textContent =
+      `✓ AI working — ${model}`;
+
+    showToast(
+      "✅ AI connection working!"
+    );
+
+  }catch(error){
+
+    $("keyStatus").className =
+      "model-status error";
+
+    $("keyStatus").textContent =
+      "❌ " + friendlyError(error);
+
+    showToast(
+      "AI test failed."
+    );
+
+  }finally{
+
+    $("testKeyBtn").textContent =
+      "🧪 Test AI";
+  }
+}
+
+/* ---------- ERROR HANDLER ---------- */
+
+function friendlyError(error){
+
+  const message =
+    String(
+      error?.message ||
+      error ||
+      "Unknown error"
+    );
+
+  const lower =
+    message.toLowerCase();
+
+  if(
+    lower.includes("api key") ||
+    lower.includes("invalid argument")
+  ){
+
+    return (
+      "API key invalid hai ya API access available nahi hai."
+    );
+  }
+
+  if(
+    lower.includes("permission") ||
+    lower.includes("forbidden")
+  ){
+
+    return (
+      "API key ke paas is model/API ka access nahi hai."
+    );
+  }
+
+  if(
+    lower.includes("quota") ||
+    lower.includes("rate limit")
+  ){
+
+    return (
+      "API quota/rate limit reached ho gayi hai."
+    );
+  }
+
+  if(
+    lower.includes("not found") ||
+    lower.includes("model")
+  ){
+
+    return (
+      "Selected model available nahi hai. AUTO mode ya Load Models try karo."
+    );
+  }
+
+  if(
+    lower.includes("failed to fetch")
+  ){
+
+    return (
+      "Network/CORS connection problem. Internet connection check karo."
+    );
+  }
+
+  return message;
+}
+
+/* ---------- TOAST ---------- */
+
+let toastTimer = null;
+
+function showToast(message){
+
+  const toast =
+    $("toast");
+
+  toast.textContent =
+    message;
+
+  toast.classList.add(
+    "show"
+  );
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toastTimer =
+    setTimeout(() => {
+
+      toast.classList.remove(
+        "show"
+      );
+
+    },3000);
+}
+
+/* ---------- KEYBOARD SHORTCUT ---------- */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      (event.ctrlKey || event.metaKey) &&
+      event.key === "Enter"
+    ){
+
+      sendCurrent();
+    }
+  }
+);
+
 </script>
+
 </body>
 </html>
